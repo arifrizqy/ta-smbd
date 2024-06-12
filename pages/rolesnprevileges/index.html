@@ -173,24 +173,66 @@
 
                   <!-- Content Row -->
                   <div class="row">
-                     <div class="col-4">
+                     <div class="col-5">
                         <form action="" class="card shadow mb-4">
                            <div class="card-header py-3">
                               <h6 class="m-0 font-weight-bold text-primary">Form Add New Role</h6>
                            </div>
-                           <div class="card-body">
-                              <div class="form-group">
-                                 <label for="roleName">Role Name</label>
-                                 <input type="text" class="form-control" id="roleName" aria-describedby="roleName" />
+                           <div class="card-body row">
+                              <div class="col-7">
+                                 <div class="form-group mb-3">
+                                    <label for="roleName">Role Name</label>
+                                    <input type="text" class="form-control" id="roleName" aria-describedby="roleName" />
+                                 </div>
+                                 <div class="form-group">
+                                    <button type="submit" class="w-100 d-flex align-items-center justify-content-center btn btn-primary">
+                                       <small>Add New Role</small>
+                                       <i class="ml-1 fas fa-paper-plane"></i>
+                                    </button>
+                                 </div>
                               </div>
-                              <div class="form-group">
-                                 <label for="roleDesc">Menus & Features</label>
+                              <div class="col-5">
+                                 <div class="form-group">
+                                    <label>Menus & Features</label>
+                                    <ul class="list-group" style="list-style-type: none">
+                                       <li class="mb-1">
+                                          <div class="d-flex align-items-center">
+                                             <small class="mr-1" style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">
+                                                <span class="tree-toggler"><i class="fas fa-angle-down"></i></span>
+                                             </small>
+                                             <input type="checkbox" class="mr-1 tree-check" data-target="item1" />
+                                             <span style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">Users</span>
+                                          </div>
+                                          <ul id="item1" style="list-style-type: none; padding-left: 34px" class="collapse show">
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> View</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Insert</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Update</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Delete</li>
+                                          </ul>
+                                       </li>
+                                       <li class="mb-1">
+                                          <div class="d-flex align-items-center">
+                                             <small class="mr-1" style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">
+                                                <span class="tree-toggler"><i class="fas fa-angle-down"></i></span>
+                                             </small>
+                                             <input type="checkbox" class="mr-1 tree-check" data-target="item1" />
+                                             <span style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">Users</span>
+                                          </div>
+                                          <ul id="item1" style="list-style-type: none; padding-left: 34px" class="collapse show">
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> View</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Insert</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Update</li>
+                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Delete</li>
+                                          </ul>
+                                       </li>
+                                    </ul>
+                                 </div>
                               </div>
                            </div>
                         </form>
                      </div>
 
-                     <div class="col-8">
+                     <div class="col-7">
                         <!-- DataTables -->
                         <div class="card shadow mb-4">
                            <div class="card-header py-3">
