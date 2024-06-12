@@ -19,7 +19,7 @@
       <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
 
       <!-- Offline Bootstrap CSS Template -->
-      <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+      <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet" />
 
       <!-- Offline DataTables -->
       <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -150,7 +150,7 @@
                      <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Username</span>
-                           <img class="img-profile rounded-circle" src="/img/undraw_profile.svg" />
+                           <img class="img-profile rounded-circle" src="/assets/img/undraw_profile.svg" />
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -172,43 +172,59 @@
                   </div>
 
                   <!-- Content Row -->
-                  <div class="card shadow mb-4">
-                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data User</h6>
+                  <div class="row">
+                     <div class="col-4">
+                        <form action="" class="card shadow mb-4">
+                           <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">Form Add New Role</h6>
+                           </div>
+                           <div class="card-body">
+                              <div class="form-group">
+                                 <label for="roleName">Role Name</label>
+                                 <input type="text" class="form-control" id="roleName" aria-describedby="roleName" />
+                              </div>
+                              <div class="form-group">
+                                 <label for="roleDesc">Menus & Features</label>
+                              </div>
+                           </div>
+                        </form>
                      </div>
-                     <div class="card-body">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="dataRolesNPrevileges" width="100%" cellspacing="0">
-                              <thead>
-                                 <tr>
-                                    <th style="max-width: 30px">#</th>
-                                    <th class="col-2">Username</th>
-                                    <th class="col-3">Full Name</th>
-                                    <th class="col-2">Email</th>
-                                    <th class="col-2">Role</th>
-                                    <th class="col-2">Actions</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr>
-                                    <td>1</td>
-                                    <td>Edinburgh</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>ubu@bepzuf.sg</td>
-                                    <td>Admin</td>
-                                    <td>
-                                       <a href="#" class="btn btn-outline-warning btn-sm">
-                                          <i class="mr-1 fas fa-edit"></i>
-                                          Update
-                                       </a>
-                                       <a href="#" class="ml-2 btn btn-outline-danger btn-sm">
-                                          <i class="mr-1 fas fa-trash"></i>
-                                          Delete
-                                       </a>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
+
+                     <div class="col-8">
+                        <!-- DataTables -->
+                        <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">Data Role &amp; Previlege</h6>
+                           </div>
+                           <div class="card-body">
+                              <div class="table-responsive">
+                                 <table class="table table-hover" id="dataRolesNPrevileges" width="100%" cellspacing="0">
+                                    <thead>
+                                       <tr>
+                                          <th class="col-1">#</th>
+                                          <th class="col-7">Role Name</th>
+                                          <th class="col-3">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>1</td>
+                                          <td>Super Admin</td>
+                                          <td>
+                                             <a href="#" class="btn btn-outline-warning btn-sm">
+                                                <i class="mr-1 fas fa-edit"></i>
+                                                Update
+                                             </a>
+                                             <a href="#" class="ml-2 btn btn-outline-danger btn-sm">
+                                                <i class="mr-1 fas fa-trash"></i>
+                                                Delete
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -263,7 +279,7 @@
       <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
       <!-- Custom scripts for all pages-->
-      <script src="/js/sb-admin-2.min.js"></script>
+      <script src="/assets/js/sb-admin-2.min.js"></script>
 
       <!-- Page level plugins -->
       <!-- <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -273,6 +289,6 @@
       <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
       <!-- Page level custom scripts -->
-      <script src="dttables-rolesnprevileges.js"></script>
+      <script src="script.js"></script>
    </body>
 </html>
