@@ -107,6 +107,16 @@ CREATE TABLE `accounts` (
    CONSTRAINT `uk_username` UNIQUE (`username`)
 ) ENGINE = InnoDB;
 
+-- TABLES untuk trigger
+CREATE TABLE employees_log (
+   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+   action ENUM('DELETE', 'INSERT', 'UPDATE') NOT NULL,
+   employee_id INT UNSIGNED NOT NULL,
+   full_name VARCHAR(50) NOT NULL,
+   deleted_at TIMESTAMP NULL DEFAULT NULL,
+   PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
 
 -- DML (Data Manipulation Language)
 -- -----------------------------------------------------
@@ -643,8 +653,113 @@ END //
 
 DELIMITER ;
 
-
-
 -- Triggers
 -- Syarat: INSERT, UPDATE, DELETE (@ [before, after])
 -- -----------------------------------------------------
+
+-- TRIGGER INSERT EMPLOYEES: before
+DELIMITER $$
+CREATE TRIGGER trg_employees_before_insert
+BEFORE INSERT ON employees
+FOR EACH ROW
+BEGIN
+   SET NEW.gender = UPPER(NEW.gender);
+   IF NEW.gender NOT IN ('L', 'P') THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid gender value, allowed values are L or P';
+   END IF;
+
+   SET NEW.citizenship = UPPER(NEW.citizenship);
+   IF NEW.citizenship NOT IN ('WNA', 'WNI') THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid citizenship value, allowed values are WNA or WNI';
+   END IF;
+
+   SET NEW.full_name = LOWER(NEW.full_name);
+
+   IF NEW.no_telp NOT REGEXP '^[0-9]{1,13}$' THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid phone number, must contain only digits and max length 13';
+   END IF;
+END $$
+DELIMITER ;
+
+-- TRIGGER INSERT EMPLOYEES: after
+DELIMITER $$
+CREATE TRIGGER trg_employees_after_insert
+AFTER INSERT ON employees
+FOR EACH ROW
+BEGIN
+   INSERT INTO employees_log (action, employee_id, full_name, created_at)
+   VALUES ('INSERT', NEW.id, NEW.full_name, NEW.created_at);
+END $$
+DELIMITER ;
+
+
+-- TRIGGER UPDATE EMPLOYEES: before
+DELIMITER $$
+CREATE TRIGGER trg_employees_before_update
+BEFORE UPDATE ON employees
+FOR EACH ROW
+BEGIN
+   SET NEW.gender = UPPER(NEW.gender);
+   IF NEW.gender NOT IN ('L', 'P') THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid gender value, allowed values are L or P';
+   END IF;
+
+   SET NEW.citizenship = UPPER(NEW.citizenship);
+   IF NEW.citizenship NOT IN ('WNA', 'WNI') THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid citizenship value, allowed values are WNA or WNI';
+   END IF;
+
+   SET NEW.full_name = LOWER(NEW.full_name);
+
+   IF NEW.no_telp NOT REGEXP '^[0-9]{1,13}$' THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Invalid phone number, must contain only digits and max length 13';
+   END IF;
+END $$
+DELIMITER ;
+
+-- TRIGGER UPDATE EMPLOYEES: after 
+DELIMITER $$
+CREATE TRIGGER trg_employees_after_update
+AFTER UPDATE ON employees
+FOR EACH ROW
+BEGIN
+    INSERT INTO employees_log (action, employee_id, full_name, updated_at)
+    VALUES ('UPDATE', NEW.id, NEW.full_name, NOW());
+END $$
+DELIMITER ;
+
+-- TRIGGER DELETE EMPLOYEES: before
+DELIMITER $$
+CREATE TRIGGER trg_employees_before_delete
+BEFORE DELETE ON employees
+FOR EACH ROW
+BEGIN
+   DECLARE account_count INT;
+
+   SELECT COUNT(*) INTO account_count 
+   FROM accounts 
+   WHERE employee_id = OLD.id;
+
+   IF account_count > 0 THEN
+      SIGNAL SQLSTATE '45000' 
+      SET MESSAGE_TEXT = 'Cannot delete employee with existing account';
+   END IF;
+END $$
+DELIMITER ;
+
+-- TRIGGER DELETE EMPLOYEES: after
+DELIMITER $$
+CREATE TRIGGER trg_employees_after_delete
+AFTER DELETE ON employees
+FOR EACH ROW
+BEGIN
+   INSERT INTO employees_log (action, employee_id, full_name, deleted_at)
+   VALUES ('DELETE', OLD.id, OLD.full_name, NOW());
+END $$
+DELIMITER ;
