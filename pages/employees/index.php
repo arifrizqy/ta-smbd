@@ -62,9 +62,17 @@ require '../../logic/connector.php';
 
             <!-- Nav Item - Employees -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/employees/index.html">
+               <a class="nav-link" href="/pages/employees/index.php">
                   <i class="fas fa-users"></i>
                   <span>Employees</span>
+               </a>
+            </li>
+
+            <!-- Nav Item - Accounts -->
+            <li class="nav-item">
+               <a class="nav-link" href="/pages/accounts/index.php">
+                  <i class="fas fa-users"></i>
+                  <span>Accounts</span>
                </a>
             </li>
 

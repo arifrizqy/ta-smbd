@@ -73,7 +73,7 @@ require '../../logic/connector.php';
 
             <!-- Nav Item - Employees -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/employees/index.html">
+               <a class="nav-link" href="/pages/employees/index.php">
                   <i class="fas fa-users"></i>
                   <span>Employees</span>
                </a>
@@ -81,7 +81,7 @@ require '../../logic/connector.php';
 
             <!-- Nav Item - Accounts -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/accounts/index.html">
+               <a class="nav-link" href="/pages/accounts/index.php">
                   <i class="fas fa-users"></i>
                   <span>Accounts</span>
                </a>
@@ -184,11 +184,11 @@ require '../../logic/connector.php';
                <div class="container-fluid">
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                     <h1 class="h3 mb-0 text-gray-800">Add New Account</h1>
-                     <a href="#" class="d-sm-inline-block btn btn-outline-secondary shadow-sm">
+                     <h1 class="h3 mb-0 text-gray-800">Account</h1>
+                     <!-- <a href="#" class="d-sm-inline-block btn btn-outline-secondary shadow-sm">
                         <i class="mr-2 fas fa-arrow-left fa-sm"></i>
                         Back to Data Table
-                     </a>
+                     </a> -->
                   </div>
 
                   <div class="row" style="display: flex;">
