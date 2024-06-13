@@ -104,7 +104,6 @@ CREATE TABLE `accounts` (
    FOREIGN KEY `fk_employee_id`(`employee_id`) REFERENCES `employees`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
    FOREIGN KEY `fk_role_id`(`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
    CONSTRAINT `uk_employee_id` UNIQUE (`employee_id`),
-   CONSTRAINT `uk_role_id` UNIQUE (`role_id`),
    CONSTRAINT `uk_username` UNIQUE (`username`)
 ) ENGINE = InnoDB;
 
