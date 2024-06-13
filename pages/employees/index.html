@@ -8,7 +8,7 @@
       <meta name="author" content="Arif Rizqy" />
       <meta name="author" content="Rizky Kurniawan" />
 
-      <title>App TA - Roles & Previleges</title>
+      <title>App TA - Users</title>
 
       <!-- Offline Font Awesome-->
       <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
@@ -55,21 +55,21 @@
             <!-- Heading -->
             <div class="sidebar-heading">User Management</div>
 
-            <!-- Nav Item - Users -->
+            <!-- Nav Item - Employees -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/users/index.html">
+               <a class="nav-link" href="/pages/employees/index.html">
                   <i class="fas fa-users"></i>
-                  <span>Users</span>
+                  <span>Employees</span>
                </a>
             </li>
 
-            <!-- Nav Item - Roles & Previleges -->
-            <li class="nav-item">
-               <a class="nav-link" href="/pages/rolesnprevileges/index.html">
+            <!-- Nav Item - Accounts -->
+            <!-- <li class="nav-item">
+               <a class="nav-link" href="/pages/account/index.html">
                   <i class="fas fa-users"></i>
-                  <span>Roles &amp; Previleges</span>
+                  <span>Accounts</span>
                </a>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- <li class="nav-item">
@@ -168,105 +168,55 @@
                <div class="container-fluid">
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                     <h1 class="h3 mb-0 text-gray-800">Roles &amp; Previleges</h1>
+                     <h1 class="h3 mb-0 text-gray-800">Employees</h1>
+                     <a href="#" class="d-sm-inline-block btn btn-primary shadow-sm">
+                        <i class="mr-2 fas fa-plus fa-sm text-white-50"></i>
+                        Add New Employee
+                     </a>
                   </div>
 
                   <!-- Content Row -->
-                  <div class="row">
-                     <div class="col-5">
-                        <form action="" class="card shadow mb-4">
-                           <div class="card-header py-3">
-                              <h6 class="m-0 font-weight-bold text-primary">Form Add New Role</h6>
-                           </div>
-                           <div class="card-body row">
-                              <div class="col-7">
-                                 <div class="form-group mb-3">
-                                    <label for="roleName">Role Name</label>
-                                    <input type="text" class="form-control" id="roleName" aria-describedby="roleName" />
-                                 </div>
-                                 <div class="form-group">
-                                    <button type="submit" class="w-100 d-flex align-items-center justify-content-center btn btn-primary">
-                                       <small>Add New Role</small>
-                                       <i class="ml-1 fas fa-paper-plane"></i>
-                                    </button>
-                                 </div>
-                              </div>
-                              <div class="col-5">
-                                 <div class="form-group">
-                                    <label>Menus & Features</label>
-                                    <ul class="list-group" style="list-style-type: none">
-                                       <li class="mb-1">
-                                          <div class="d-flex align-items-center">
-                                             <small class="mr-1" style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">
-                                                <span class="tree-toggler"><i class="fas fa-angle-down"></i></span>
-                                             </small>
-                                             <input type="checkbox" class="mr-1 tree-check" data-target="item1" />
-                                             <span style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">Users</span>
-                                          </div>
-                                          <ul id="item1" style="list-style-type: none; padding-left: 34px" class="collapse show">
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> View</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Insert</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Update</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Delete</li>
-                                          </ul>
-                                       </li>
-                                       <li class="mb-1">
-                                          <div class="d-flex align-items-center">
-                                             <small class="mr-1" style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">
-                                                <span class="tree-toggler"><i class="fas fa-angle-down"></i></span>
-                                             </small>
-                                             <input type="checkbox" class="mr-1 tree-check" data-target="item1" />
-                                             <span style="cursor: pointer" data-toggle="collapse" data-target="#item1" aria-expanded="true">Users</span>
-                                          </div>
-                                          <ul id="item1" style="list-style-type: none; padding-left: 34px" class="collapse show">
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> View</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Insert</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Update</li>
-                                             <li><input type="checkbox" class="mr-1 child-check" data-parent="item1" /> Delete</li>
-                                          </ul>
-                                       </li>
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>
-                        </form>
+                  <div class="card shadow mb-4">
+                     <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Data Employee</h6>
                      </div>
-
-                     <div class="col-7">
-                        <!-- DataTables -->
-                        <div class="card shadow mb-4">
-                           <div class="card-header py-3">
-                              <h6 class="m-0 font-weight-bold text-primary">Data Role &amp; Previlege</h6>
-                           </div>
-                           <div class="card-body">
-                              <div class="table-responsive">
-                                 <table class="table table-hover" id="dataRolesNPrevileges" width="100%" cellspacing="0">
-                                    <thead>
-                                       <tr>
-                                          <th class="col-1">#</th>
-                                          <th class="col-7">Role Name</th>
-                                          <th class="col-3">Actions</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <td>1</td>
-                                          <td>Super Admin</td>
-                                          <td>
-                                             <a href="#" class="btn btn-outline-warning btn-sm">
-                                                <i class="mr-1 fas fa-edit"></i>
-                                                Update
-                                             </a>
-                                             <a href="#" class="ml-2 btn btn-outline-danger btn-sm">
-                                                <i class="mr-1 fas fa-trash"></i>
-                                                Delete
-                                             </a>
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
+                     <div class="card-body">
+                        <div class="table-responsive">
+                           <table class="table table-hover" id="dataUser" width="100%" cellspacing="0">
+                              <thead>
+                                 <tr>
+                                    <th style="max-width: 30px">#</th>
+                                    <th class="col-1">NIK</th>
+                                    <th class="col-3">Full Name</th>
+                                    <th class="col-1">Phone Number</th>
+                                    <th class="col-1">Email</th>
+                                    <th class="col-2">Actions</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>1</td>
+                                    <td>6789012345678901</td>
+                                    <td>Arif Rizqy Rizky Kurniawan</td>
+                                    <td>085156543083</td>
+                                    <td>rizqy.rizky@example.domain</td>
+                                    <td>
+                                       <a href="#" class="btn btn-outline-info btn-sm">
+                                          <i class="mr-1 fas fa-info-circle"></i>
+                                          Detail
+                                       </a>
+                                       <a href="#" class="ml-2 btn btn-outline-warning btn-sm">
+                                          <i class="mr-1 fas fa-edit"></i>
+                                          Update
+                                       </a>
+                                       <a href="#" class="ml-2 btn btn-outline-danger btn-sm">
+                                          <i class="mr-1 fas fa-trash"></i>
+                                          Delete
+                                       </a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
                         </div>
                      </div>
                   </div>
