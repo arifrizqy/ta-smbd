@@ -264,13 +264,386 @@ INSERT INTO `accounts` (`employee_id`, `username`, `password`, `role_id`, `is_ac
 -- Views 
 -- Syarat: 5 view
 -- -----------------------------------------------------
+USE ta_smbd;
+
+-- employees (1)
+CREATE VIEW employees_all AS
+SELECT 
+   e.id,
+   e.nik,
+   e.full_name,
+   e.birth_date,
+   e.gender,
+   e.address,
+   e.no_telp,
+   e.email,
+   e.citizenship
+FROM employees e;
+
+-- (2)
+CREATE VIEW active_employees AS
+SELECT 
+   e.id,
+   e.nik,
+   e.full_name,
+   e.birth_date,
+   e.gender,
+   e.address,
+   e.no_telp,
+   e.email,
+   e.citizenship
+FROM employees e WHERE e.is_active = 1;
+
+-- (3)
+CREATE VIEW inactive_employees AS
+SELECT 
+   e.id,
+   e.nik,
+   e.full_name,
+   e.birth_date,
+   e.gender,
+   e.address,
+   e.no_telp,
+   e.email,
+   e.citizenship
+FROM employees e WHERE e.is_active = 0;
+
+
+-- roles (4)
+CREATE VIEW roles_all AS
+SELECT 
+   r.id,
+   r.role_name,
+   r.description
+FROM roles r;
+
+-- (5)
+CREATE VIEW active_roles AS
+SELECT 
+   r.id,
+   r.role_name,
+   r.description
+FROM roles r WHERE r.is_active = 1;
+
+-- (6)
+CREATE VIEW inactive_roles AS
+SELECT 
+   r.id,
+   r.role_name,
+   r.description
+FROM roles r WHERE r.is_active = 0;
+
+
+-- features (7)
+CREATE VIEW features_all AS
+SELECT
+   f.id,
+   f.feature_name
+FROM features f;
+
+-- (8)
+CREATE VIEW active_features AS
+SELECT 
+   f.id,
+   f.feature_name
+FROM features f WHERE f.is_active = 1;
+
+-- (9)
+CREATE VIEW inactive_features AS
+SELECT 
+   f.id,
+   f.feature_name
+FROM features f WHERE f.is_active = 0;
+
+
+-- menus (10)
+CREATE VIEW menus_all AS
+SELECT
+   m.id,
+   m.menu_name
+FROM menus m;
+
+-- (11)
+CREATE VIEW active_menus AS
+SELECT 
+   m.id,
+   m.menu_name
+FROM menus m WHERE m.is_active = 1;
+
+-- (12)
+CREATE VIEW inactive_menus AS
+SELECT 
+   m.id,
+   m.menu_name
+FROM menus m WHERE m.is_active = 0;
+
+
+-- role permission  (13)
+CREATE VIEW role_permissions_all AS
+SELECT
+   a.role_id,
+   a.menu_id,
+   a.feature_id,
+   b.permission_name
+FROM role_permissions a JOIN permissions b ON 
+	a.menu_id = b.menu_id AND
+	a.feature_id = b.feature_id;
+
+
 
 -- Join
 -- -----------------------------------------------------
+-- account (14)
+CREATE VIEW accounts_all AS
+SELECT 
+   a.employee_id,
+   b.full_name, 
+   a.username,
+   a.password,
+   a.role_id,
+   c.role_name
+FROM accounts a 
+LEFT JOIN employees b ON a.employee_id = b.id
+LEFT JOIN roles c ON a.role_id = c.id;
+
+-- (15)
+CREATE VIEW active_accounts AS
+SELECT 
+   a.employee_id,
+   b.full_name, 
+   a.username,
+   a.password,
+   a.role_id,
+   c.role_name
+FROM accounts a 
+JOIN employees b ON a.employee_id = b.id
+JOIN roles c ON a.role_id = c.id
+WHERE a.is_active = 1;
+
+-- (16)
+CREATE VIEW inactive_accounts AS
+SELECT 
+   a.employee_id,
+   b.full_name, 
+   a.username,
+   a.password,
+   a.role_id,
+   c.role_name
+FROM accounts a 
+JOIN employees b ON a.employee_id = b.id
+JOIN roles c ON a.role_id = c.id
+WHERE a.is_active = 0;
+
+-- permissions (17)
+CREATE VIEW permissions_all AS
+SELECT 
+   p.menu_id,
+   r.menu_name,
+   p.feature_id,
+   q.feature_name,
+   p.permission_name,
+   p.description
+FROM permissions p 
+JOIN features q ON p.feature_id = q.id
+JOIN menus r ON p.menu_id = r.id;
+
+-- (18)
+CREATE VIEW active_permissions AS
+SELECT 
+   p.menu_id,
+   r.menu_name,
+   p.feature_id,
+   q.feature_name,
+   p.permission_name,
+   p.description
+FROM permissions p 
+JOIN features q ON p.feature_id = q.id
+JOIN menus r ON p.menu_id = r.id
+WHERE p.is_active = 1;
+
+-- (19)
+CREATE VIEW inactive_permissions AS
+SELECT 
+   p.menu_id,
+   r.menu_name,
+   p.feature_id,
+   q.feature_name,
+   p.permission_name,
+   p.description
+FROM permissions p 
+JOIN features q ON p.feature_id = q.id
+JOIN menus r ON p.menu_id = r.id
+WHERE p.is_active = 0;
 
 -- Stored Procedures (Branching & Looping)
 -- Syarat: 5 stored procedures
 -- -----------------------------------------------------
+-- Stored Procedure 1 (insert) (branching)
+DELIMITER //
+CREATE PROCEDURE InsertEmployee (
+    IN p_nik CHAR(16),
+    IN p_full_name VARCHAR(50),
+    IN p_birth_date DATE,
+    IN p_gender ENUM('L', 'P'),
+    IN p_address VARCHAR (100),
+    IN p_no_telp CHAR(13),
+    IN p_email VARCHAR(50),
+    IN p_citizenship ENUM('WNI', 'WNA')
+)
+BEGIN
+    DECLARE employee_count INT;
+    
+    SELECT COUNT(*) INTO employee_count FROM employees WHERE nik = p_nik;
+    
+    IF employee_count > 0 THEN
+        SELECT 'NIK already exists' AS message;
+    ELSE
+        INSERT INTO employees (nik, full_name, birth_date, gender, address, no_telp, email, citizenship)
+        VALUES (p_nik, p_full_name, p_birth_date, p_gender, p_address, p_no_telp, p_email, p_citizenship);
+        
+        SELECT 'Employee inserted successfully' AS message;
+    END IF;
+END //
+DELIMITER ;
+
+
+-- stored procedure 2 (update) (branching)
+DELIMITER //
+CREATE PROCEDURE UpdateEmployee (
+    IN p_nik CHAR(16),
+    IN p_full_name VARCHAR(50),
+    IN p_birth_date DATE,
+    IN p_gender ENUM('L', 'P'),
+    IN p_address VARCHAR(100),
+    IN p_no_telp CHAR(13),
+    IN p_email VARCHAR(50),
+    IN p_citizenship ENUM('WNI', 'WNA')
+)
+BEGIN
+    DECLARE employee_count INT;
+
+    SELECT COUNT(*) INTO employee_count FROM employees WHERE nik = p_nik;
+
+    IF employee_count = 0 THEN
+        SELECT 'NIK not found' AS message;
+    ELSE
+        UPDATE employees
+        SET 
+            full_name = p_full_name,
+            birth_date = p_birth_date,
+            gender = p_gender,
+            address = p_address,
+            no_telp = p_no_telp,
+            email = p_email,
+            citizenship = p_citizenship,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE 
+            nik = p_nik;
+        
+        SELECT 'Employee updated successfully' AS message;
+    END IF;
+END //
+DELIMITER ;
+
+
+-- Stored Procedure 3 (employees)
+DELIMITER //
+CREATE PROCEDURE activate_employee(IN employee_id INT)
+BEGIN
+    UPDATE employees
+    SET is_active = 0
+    WHERE id = employee_id;
+END //
+DELIMITER ;
+
+-- stored procedure 4 (accounts)
+DELIMITER //
+CREATE PROCEDURE activate_account(IN employee_id INT)
+BEGIN
+    UPDATE accounts
+    SET is_active = 0
+    WHERE employee_id = employee_id;
+END //
+DELIMITER ;
+
+-- stored procedure 5 (roles)
+DELIMITER //
+CREATE PROCEDURE activate_role(IN role_id INT)
+BEGIN
+    UPDATE roles
+    SET is_active = 0
+    WHERE id = role_id;
+END //
+DELIMITER ;
+
+
+-- stored procedure 6 (menus)
+DELIMITER //
+CREATE PROCEDURE activate_menu(IN menu_id INT)
+BEGIN
+    UPDATE menus
+    SET is_active = 0
+    WHERE id = menu_id;
+END //
+DELIMITER ;
+
+-- stored procedure 7 (features)
+DELIMITER //
+CREATE PROCEDURE deactivate_feature(IN feature_id INT)
+BEGIN
+    UPDATE features
+    SET is_active = 0
+    WHERE id = feature_id;
+END //
+DELIMITER ;
+
+-- stored procedure 8 (permission)
+DELIMITER //
+CREATE PROCEDURE deactivate_permission(IN menu_id INT, IN feature_id INT)
+BEGIN
+    UPDATE permissions
+    SET is_active = 0
+    WHERE menu_id = menu_id AND feature_id = feature_id;
+END //
+DELIMITER ;
+
+-- stored procedure 9 (insert)
+DELIMITER //
+CREATE PROCEDURE InsertAccount (
+    IN p_employee_id INT UNSIGNED,
+    IN p_username VARCHAR(15),
+    IN p_password VARCHAR(15),
+    IN p_role_id INT UNSIGNED,
+    IN p_is_active BOOLEAN
+)
+BEGIN
+    INSERT INTO accounts (employee_id, username, PASSWORD, role_id, is_active)
+    VALUES (p_employee_id, p_username, p_password, p_role_id, p_is_active);
+END //
+DELIMITER ;
+
+
+-- stored procedure 10 (update)
+DELIMITER //
+
+CREATE PROCEDURE UpdateAccount (
+    IN p_employee_id INT UNSIGNED,
+    IN p_username VARCHAR(15),
+    IN p_password VARCHAR(15),
+    IN p_role_id INT UNSIGNED
+)
+BEGIN
+    UPDATE accounts
+    SET username = p_username,
+        PASSWORD = p_password,
+        role_id = p_role_id,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE employee_id = p_employee_id;
+END //
+
+DELIMITER ;
+
+
 
 -- Triggers
 -- Syarat: INSERT, UPDATE, DELETE (@ [before, after])
