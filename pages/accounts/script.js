@@ -1,5 +1,9 @@
 $(document).ready(function () {
-   $("#dataRolesNPrevileges").DataTable();
+   $("#rolesPermissions").DataTable({
+      paging: false,
+      info: false,
+      fixedHeader: true,
+   });
 
    $('[data-toggle="collapse"]').on("click", function () {
       var icon = $(this).find(".tree-toggler .fas");

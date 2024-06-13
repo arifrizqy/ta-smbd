@@ -8,7 +8,7 @@
       <meta name="author" content="Arif Rizqy" />
       <meta name="author" content="Rizky Kurniawan" />
 
-      <title>App TA - Employees</title>
+      <title>App TA - Form Account</title>
 
       <!-- Offline Font Awesome-->
       <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
@@ -64,12 +64,12 @@
             </li>
 
             <!-- Nav Item - Accounts -->
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                <a class="nav-link" href="/pages/accounts/index.html">
                   <i class="fas fa-users"></i>
                   <span>Accounts</span>
                </a>
-            </li> -->
+            </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- <li class="nav-item">
@@ -168,77 +168,95 @@
                <div class="container-fluid">
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                     <h1 class="h3 mb-0 text-gray-800">Employees</h1>
-                     <a href="#" class="d-sm-inline-block btn btn-primary shadow-sm">
-                        <i class="mr-2 fas fa-plus fa-sm text-white-50"></i>
-                        Add New Employee
+                     <h1 class="h3 mb-0 text-gray-800">Accounts</h1>
+                     <a href="#" class="d-sm-inline-block btn btn-outline-secondary shadow-sm">
+                        <i class="mr-2 fas fa-arrow-left fa-sm"></i>
+                        Back to Data Table
                      </a>
                   </div>
 
                   <!-- Content Row -->
                   <div class="card shadow mb-4">
                      <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data Employee</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Form Account</h6>
                      </div>
                      <div class="card-body">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="dataUser" width="100%" cellspacing="0">
-                              <thead>
-                                 <tr>
-                                    <th style="max-width: 30px">#</th>
-                                    <th class="col-2">NIK</th>
-                                    <th class="col-2">Full Name</th>
-                                    <th class="col-2">Phone Number</th>
-                                    <th class="col-2">Email</th>
-                                    <th class="col-1">Actions</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr>
-                                    <td style="vertical-align: middle; font-weight: bold" align="center">1</td>
-                                    <td style="vertical-align: middle">6789012345678901</td>
-                                    <td style="vertical-align: middle">Arif Rizqy Rizky Kurniawan</td>
-                                    <td style="vertical-align: middle">085156543083</td>
-                                    <td style="vertical-align: middle">rizqy.rizky@example.domain</td>
-                                    <td class="d-flex flex-column align-items-start">
-                                       <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-info-circle"></i>
-                                          Detail
-                                       </a>
-                                       <a href="#" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-edit"></i>
-                                          Update
-                                       </a>
-                                       <a href="#" class="btn btn-outline-danger btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-trash"></i>
-                                          Delete
-                                       </a>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td style="vertical-align: middle; font-weight: bold" align="center">1</td>
-                                    <td style="vertical-align: middle">6789012345678901</td>
-                                    <td style="vertical-align: middle">Arif Rizqy Rizky Kurniawan</td>
-                                    <td style="vertical-align: middle">085156543083</td>
-                                    <td style="vertical-align: middle">rizqy.rizky@example.domain</td>
-                                    <td class="d-flex flex-column align-items-start">
-                                       <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-info-circle"></i>
-                                          Detail
-                                       </a>
-                                       <a href="#" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-edit"></i>
-                                          Update
-                                       </a>
-                                       <a href="#" class="btn btn-outline-danger btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-trash"></i>
-                                          Delete
-                                       </a>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
+                        <form method="post">
+                           <div class="row">
+                              <div class="col-6">
+                                 <div class="form-group">
+                                    <label for="employeeData">Choose Employee</label>
+                                    <select class="form-control" id="employeeData" required>
+                                       <option selected disabled>--&lt; Data Employee &gt;--</option>
+                                       <option value="0022334455663056">0022334455663056 - Sri Lestari</option>
+                                       <option value="0011223344552045">0011223344552045 - Asep Setiawan</option>
+                                       <option value="9012345678901004">9012345678901004 - Tuti Suryani</option>
+                                       <option value="6677889900118011">6677889900118011 - Yusuf Bachtiar</option>
+                                       <option value="2233445566774007">2233445566774007 - Andi Nugroho</option>
+                                    </select>
+                                 </div>
+                                 <div class="form-row mb-2">
+                                    <div class="form-group col-5">
+                                       <label for="username">Username</label>
+                                       <input class="form-control" type="text" name="email" id="username" required />
+                                    </div>
+                                    <div class="form-group col-7">
+                                       <label for="password">Password</label>
+                                       <div class="input-group mb-3">
+                                          <input type="text" class="form-control" aria-describedby="button-addon2" readonly required />
+                                          <div class="input-group-append">
+                                             <button class="btn btn-outline-primary" type="button" id="button-addon2">
+                                                <i class="mr-1 fas fa-random"></i>
+                                                Button
+                                             </button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="table-responsive">
+                                    <table class="table table-hover" id="rolesPermissions" width="100%" cellspacing="0">
+                                       <thead>
+                                          <tr>
+                                             <th>#</th>
+                                             <th class="col-5">Role Name</th>
+                                             <th class="col-7">Permission</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td style="vertical-align: middle; font-weight: bold" align="center">
+                                                <input type="radio" name="pick-role" />
+                                             </td>
+                                             <td style="vertical-align: middle">Super Admin</td>
+                                             <td>
+                                                <dl class="m-0" style="height: 150px; overflow-y: scroll">
+                                                   <div>
+                                                      <dt class="mb-2">Employee</dt>
+                                                      <dl class="ml-4 mb-1">View Employee</dl>
+                                                      <dl class="ml-4 mb-1">Insert Employee</dl>
+                                                      <dl class="ml-4 mb-1">Update Employee</dl>
+                                                      <dl class="ml-4 mb-1">Delete Employee</dl>
+                                                   </div>
+                                                   <div>
+                                                      <dt class="mb-2">Employee</dt>
+                                                      <dl class="ml-4 mb-1">View Hallo</dl>
+                                                      <dl class="ml-4 mb-1">Insert Employee</dl>
+                                                      <dl class="ml-4 mb-1">Update Employee</dl>
+                                                      <dl class="ml-4 mb-1">Delete Employee</dl>
+                                                   </div>
+                                                </dl>
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                              <div class="form-group col-6 p-1"></div>
+                           </div>
+                           <div>
+                              <button type="submit">Create</button>
+                           </div>
+                        </form>
                      </div>
                   </div>
                </div>
