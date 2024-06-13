@@ -1,3 +1,8 @@
+<?php 
+
+require '../../logic/connector.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -193,37 +198,45 @@
                            <h6 class="m-0 font-weight-bold text-primary">Form Account</h6>
                         </div>
                         <div class="card-body" style="margin: 10px 30px 10px 30px;">
-                           <form method="post">
+                           <form action="handler.php" method="post">
                                  <div class="form-group" style="margin-bottom: 30px;">
                                     <label for="employeeData">Choose Employee</label>
-                                    <select class="form-control" id="employeeData" required>
-                                       <option selected disabled>--&lt; Data Employee &gt;--</option>
-                                       <option value="0022334455663056">0022334455663056 - Sri Lestari</option>
-                                       <option value="0011223344552045">0011223344552045 - Asep Setiawan</option>
-                                       <option value="9012345678901004">9012345678901004 - Tuti Suryani</option>
-                                       <option value="6677889900118011">6677889900118011 - Yusuf Bachtiar</option>
-                                       <option value="2233445566774007">2233445566774007 - Andi Nugroho</option>
+                                    <select class="form-control" id="employeeData" name="employee_id" required>
+                                       <option value="" selected disabled>--&lt; Data Employee &gt;--</option>
+                                       <?php
+
+                                       $dataEmployee = $conn->query("SELECT * FROM employees WHERE is_active = '1'")->fetch_all(MYSQLI_ASSOC);
+
+                                       foreach ($dataEmployee as $employee) {
+
+                                          ?>
+                                          <option value="<?= $employee['id'] ?>" <?= (isset($_GET['nik']) && $employee['nik'] === $_GET['nik']) ? 'selected' : '' ?>><?= $employee['nik'] ?> - <?= $employee['full_name'] ?></option>
+                                          <?php
+                                          
+                                       }
+
+                                       ?>
                                     </select>
                                  </div>
                                  <div class="form-row mb-2">
                                     <div class="form-group col-5">
                                        <label for="username">Username</label>
-                                       <input class="form-control" type="text" name="email" id="username" required />
+                                       <input class="form-control" type="text" name="username" id="username" required />
                                     </div>
                                     <div class="form-group col-7">
                                        <label for="password">Password</label>
                                        <div class="input-group mb-3">
-                                          <input type="text" class="form-control" aria-describedby="button-addon2" readonly required />
+                                          <input type="text" class="form-control" id="password" name="password" aria-describedby="button-addon2" readonly required />
                                           <div class="input-group-append">
-                                             <button class="btn btn-outline-primary" type="button" id="button-addon2">
+                                             <button class="btn btn-outline-primary" type="button" id="btnGeneratePassword">
                                                 <i class="mr-1 fas fa-random"></i>
-                                                Button
+                                                Generate
                                              </button>
                                           </div>
                                        </div>
                                     </div>
                                  </div>
-                                 <div class="table-responsive" style="margin-top: 30px;">
+                                 <div class="table-responsive" style="height: 300px">
                                     <table class="table table-hover" id="rolesPermissions" width="100%" cellspacing="0">
                                        <thead>
                                           <tr>
@@ -233,79 +246,156 @@
                                           </tr>
                                        </thead>
                                        <tbody>
-                                          <tr>
-                                             <td style="vertical-align: middle; font-weight: bold" align="center">
-                                                <input type="radio" name="pick-role" />
-                                             </td>
-                                             <td style="vertical-align: middle">Super Admin</td>
-                                             <td>
-                                                <dl class="m-0" style="height: 150px; overflow-y: scroll">
-                                                   <div>
-                                                      <dt class="mb-2">Employee</dt>
-                                                      <dl class="ml-4 mb-1">View Employee</dl>
-                                                      <dl class="ml-4 mb-1">Insert Employee</dl>
-                                                      <dl class="ml-4 mb-1">Update Employee</dl>
-                                                      <dl class="ml-4 mb-1">Delete Employee</dl>
-                                                   </div>
-                                                   <div>
-                                                      <dt class="mb-2">Employee</dt>
-                                                      <dl class="ml-4 mb-1">View Hallo</dl>
-                                                      <dl class="ml-4 mb-1">Insert Employee</dl>
-                                                      <dl class="ml-4 mb-1">Update Employee</dl>
-                                                      <dl class="ml-4 mb-1">Delete Employee</dl>
-                                                   </div>
-                                                </dl>
-                                             </td>
-                                          </tr>
+
+                                          <?php
+                                          
+                                          $dataRole = $conn->query("SELECT * FROM roles")->fetch_all(MYSQLI_ASSOC);
+                                          foreach ($dataRole as $role) {
+                                             ?>
+                                             <tr>
+                                                <td style="vertical-align: middle; font-weight: bold" align="center">
+                                                   <input type="radio" name="role" value="<?= $role['id'] ?>" required />
+                                                </td>
+                                                <td style="vertical-align: middle"><?= $role['role_name'] ?></td>
+                                                <td>
+                                                   <dl class="m-0" style="height: 150px; overflow-y: scroll">
+                                                      <div>
+
+                                                         <?php
+
+                                                         $sqlQuery = "SELECT menus.id, menu_name FROM permissions perm JOIN menus ON perm.menu_id = menus.id JOIN role_permissions rp ON rp.menu_id = perm.menu_id AND rp.feature_id = perm.feature_id WHERE rp.role_id = '" . $role['id'] . "'";
+                                                         
+                                                         $dataMenu = $conn->query($sqlQuery)->fetch_all(MYSQLI_ASSOC);
+                                                         foreach ($dataMenu as $menu) {
+                                                            ?>
+                                                            <dt class="mb-2"><?= $menu['menu_name'] ?></dt>
+                                                            <?php
+
+                                                            $dataPermission = $conn->query("SELECT permission_name FROM permissions WHERE menu_id = '" . $menu['id'] . "'")->fetch_all(MYSQLI_ASSOC);
+                                                            foreach ($dataPermission as $permission) {
+                                                               ?>
+                                                               <dd class="ml-4 mb-1"><?= $permission['permission_name'] ?></dd>
+                                                               <?php
+                                                            }
+
+                                                         }
+
+                                                         ?>
+                                                      </div>
+                                                   </dl>
+                                                </td>
+                                             </tr>
+                                             <?php
+                                          }
+
+                                          ?>
                                        </tbody>
                                     </table>
                                  </div>
                               <div class="d-grid gap-2" style="margin: 40px 0 20px 0;">
-                                 <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Create Account</button>
+                                 <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="insert">Create Account</button>
                               </div>
                            </form>
                         </div>
                      </div>
-                     <div class="card shadow mb-4" style="width: 49%; margin-right: 10px;">
-                        <div class="card-header py-3">
-                           <h6 class="m-0 font-weight-bold text-primary">Role (Exclusive)</h6>
+                     <div class="col-6">
+                        <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">Role (Exclusive)</h6>
+                           </div>
+                           <div class="card-body" style="margin: 10px 30px 10px 30px;">
+                              <form method="post">
+                                 <div class="form-group">
+                                    <label for="role">Role Name</label>
+                                    <input type="text" class="form-control" id="role" name="role" placeholder="Enter Role Name" style="margin-bottom: 30px;">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Enter Description" style="margin-bottom: 30px; height: 140px;"></textarea>
+                                 </div>
+                                 <div class="form-group" style="margin-bottom: 30px; display: flex;">
+                                    <div class="bagian1" style="margin: 0 5px 0 0; width: 50%;">
+                                       <label for="menu">Choose Menu</label>
+                                       <select class="form-control" id="menu" required>
+                                          <option selected disabled>--&lt; Data Menus &gt;--</option>
+                                          <option value="#">Menu 1</option>
+                                          <option value="#">Menu 2</option>
+                                          <option value="#">Menu 3</option>
+                                          <option value="#">Menu 4</option>
+                                          <option value="#">Menu 5</option>
+                                       </select>
+                                    </div>
+                                    <div class="bagian2" style="margin: 0 0 0 5px; width: 50%;">
+                                       <label for="function">Choose Feature</label>
+                                       <select class="form-control" id="Function" required>
+                                          <option selected disabled>--&lt; Data Function &gt;--</option>
+                                          <option value="#">Function 1</option>
+                                          <option value="#">Function 2</option>
+                                          <option value="#">Function 3</option>
+                                          <option value="#">Function 4</option>
+                                          <option value="#">Function 5</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="d-grid gap-2" style="margin: 40px 0 20px 0;">
+                                    <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Create Role</button>
+                                 </div>
+                              </form>
+                           </div>
                         </div>
-                        <div class="card-body" style="margin: 10px 30px 10px 30px;">
-                           <form method="post">
-                              <div class="form-group">
-                                 <label for="role">Role Name</label>
-                                 <input type="text" class="form-control" id="role" name="role" placeholder="Enter Role Name" style="margin-bottom: 30px;">
-                                 <label for="description" class="form-label">Description</label>
-                                 <textarea class="form-control" id="description" name="description" placeholder="Enter Description" style="margin-bottom: 30px; height: 140px;"></textarea>
+                     </div>
+                     <div class="col-12">
+                        <div class="card shadow mb-4">
+                           <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">Data Account</h6>
+                           </div>
+                           <div class="card-body">
+                              <div class="table-responsive">
+                                 <table class="table table-hover" id="dataAccount" width="100%" cellspacing="0">
+                                    <thead>
+                                       <tr>
+                                          <th style="max-width: 30px">#</th>
+                                          <th class="col-2">Full Name</th>
+                                          <th class="col-2">Username</th>
+                                          <th class="col-2">Role</th>
+                                          <th class="col-1">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php 
+                                       
+                                       $no = 1;
+
+                                       $dataAccount = $conn->query("SELECT employees.id, employees.nik, employees.full_name, accounts.username, roles.role_name FROM accounts JOIN employees ON accounts.employee_id = employees.id JOIN roles ON accounts.role_id = roles.id WHERE accounts.is_active = 1")->fetch_all(MYSQLI_ASSOC);
+                                       foreach($dataAccount as $account) {
+                                          ?>
+                                          <tr>
+                                             <td style="vertical-align: middle; font-weight: bold;" align="center"><?= $no ?></td>
+                                             <td style="vertical-align: middle"><?= $account['full_name'] ?></td>
+                                             <td style="vertical-align: middle"><?= $account['username'] ?></td>
+                                             <td style="vertical-align: middle"><?= $account['role_name'] ?></td>
+                                             <td class="d-flex flex-column align-items-start">
+                                                <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
+                                                   <i class="mr-1 fas fa-info-circle"></i>
+                                                   Detail
+                                                </a>
+                                                <a href="form.php?nik=<?= $account['nik'] ?>" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
+                                                   <i class="mr-1 fas fa-edit"></i>
+                                                   Update
+                                                </a>
+                                                <a href="delete.php?id=<?= $account['id'] ?>" class="btn btn-outline-danger btn-sm d-flex align-items-center">
+                                                   <i class="mr-1 fas fa-trash"></i>
+                                                   Delete
+                                                </a>
+                                             </td>
+                                          </tr>
+                                          <?php
+                                          $no++;
+                                       }
+
+                                       ?>
+                                    </tbody>
+                                 </table>
                               </div>
-                              <div class="form-group" style="margin-bottom: 30px; display: flex;">
-                                 <div class="bagian1" style="margin: 0 5px 0 0; width: 50%;">
-                                    <label for="menu">Choose Menus</label>
-                                    <select class="form-control" id="menu" required>
-                                       <option selected disabled>--&lt; Data Menus &gt;--</option>
-                                       <option value="#">Menu 1</option>
-                                       <option value="#">Menu 2</option>
-                                       <option value="#">Menu 3</option>
-                                       <option value="#">Menu 4</option>
-                                       <option value="#">Menu 5</option>
-                                    </select>
-                                 </div>
-                                 <div class="bagian2" style="margin: 0 0 0 5px; width: 50%;">
-                                    <label for="function">Choose Functions</label>
-                                    <select class="form-control" id="Function" required>
-                                       <option selected disabled>--&lt; Data Function &gt;--</option>
-                                       <option value="#">Function 1</option>
-                                       <option value="#">Function 2</option>
-                                       <option value="#">Function 3</option>
-                                       <option value="#">Function 4</option>
-                                       <option value="#">Function 5</option>
-                                    </select>
-                                 </div>
-                              </div>
-                              <div class="d-grid gap-2" style="margin: 40px 0 20px 0;">
-                                 <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Create Role</button>
-                              </div>
-                           </form>
+                           </div>
                         </div>
                      </div>
                   </div>
