@@ -1,3 +1,9 @@
+<?php
+
+require_once '../../logic/connector.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -24,29 +30,29 @@
       <!-- Offline DataTables -->
       <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
       <style>
-        .box-container-1{
+         .box-container-1 {
             width: 50%;
             margin: 0 10px 10px 0;
-        }
-        .box-container-2{
+         }
+         .box-container-2 {
             width: 50%;
             margin-left: 10px;
-        }
-        .form-control {
+         }
+         .form-control {
             border: 1px solid #6f7894;
             color: #6f7894;
-        }
-        .form-label{
+         }
+         .form-label {
             color: #6f7894;
-        }
-        .bagian1{
+         }
+         .bagian1 {
             width: 50%;
             margin-right: 10px;
-        }
-        .bagian2{
+         }
+         .bagian2 {
             width: 50%;
             margin-left: 10px;
-        }
+         }
       </style>
    </head>
 
@@ -193,7 +199,7 @@
                <div class="container-fluid">
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                     <h1 class="h3 mb-0 text-gray-800">Add New Employee</h1>
+                     <h1 class="h3 mb-0 text-gray-800">Employee</h1>
                      <!-- <a href="#" class="d-sm-inline-block btn btn-primary shadow-sm">
                         <i class="mr-2 fas fa-plus fa-sm text-white-50"></i>
                         Add New Employee
@@ -203,73 +209,81 @@
                   <!-- Content Row -->
                   <div class="card shadow mb-4">
                      <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Employee</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Form Employee</h6>
                      </div>
-                     <div class="card-body" style="margin: 10px 30px 10px 30px;">
-                        <div class="box-container" style="display: flex;">
-                            <div class="box-container-1">
-                                <label for="fullname" class="form-label">Full-name</label>
-                                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full-name" style="margin-bottom: 25px;">
-                            </div>
-                            <div class="box-container-2" style="display: flex;">
-                                <div class="bagian1">
+                     <div class="card-body" style="margin: 10px 30px 10px 30px">
+                        <?php
+
+                        if (isset($_GET['nik'])) {
+                           $dataEmployee = $conn->query("SELECT * FROM employees WHERE nik = '$_GET[nik]'")->fetch_assoc();
+                        }
+
+                        ?>
+
+                        <form action="handler.php" method="post">
+                           <div class="box-container" style="display: flex">
+                              <div class="box-container-1">
+                                 <label for="fullname" class="form-label">Full-name</label>
+                                 <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full-name" style="margin-bottom: 25px" value="<?= isset($dataEmployee) ? $dataEmployee['full_name'] : '' ?>" required />
+                              </div>
+                              <div class="box-container-2" style="display: flex">
+                                 <div class="bagian1">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" style="margin-bottom: 10px;">
-                                </div>
-                                <div class="bagian2">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="<?= isset($dataEmployee) ? $dataEmployee['email'] : '' ?>" style="margin-bottom: 10px" required />
+                                 </div>
+                                 <div class="bagian2">
                                     <label for="telphone" class="form-label">Telephone Number</label>
-                                    <input type="number" class="form-control" id="telphone" name="telphone" placeholder="Enter No-telephone" style="margin-bottom: 10px;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box-container" style="display: flex;">
-                            <div class="box-container-1">
-                                <div class="bagian" style="display: flex; margin-bottom: 10px;">
-                                    <div class="bagian1" style="margin-right: 20px;">
-                                        <label for="nik" class="form-label">NIK</label>
-                                        <input type="number" class="form-control" id="nik" name="nik" placeholder="Enter NIK" style="margin-bottom: 10px;">
+                                    <input type="number" class="form-control" id="telphone" name="telp" value="<?= isset($dataEmployee) ? $dataEmployee['no_telp'] : '' ?>" placeholder="Enter No-telephone" style="margin-bottom: 10px" required />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="box-container" style="display: flex">
+                              <div class="box-container-1">
+                                 <div class="bagian" style="display: flex; margin-bottom: 10px">
+                                    <div class="bagian1" style="margin-right: 20px">
+                                       <label for="nik" class="form-label">NIK</label>
+                                       <input type="number" class="form-control" id="nik" name="nik" value="<?= isset($dataEmployee) ? $dataEmployee['nik'] : '' ?>" <?= isset($dataEmployee) ? 'readonly' : '' ?> placeholder="Enter NIK" style="margin-bottom: 10px" required />
                                     </div>
                                     <div class="bagian2">
-                                        <label for="citizenship" class="form-label">Citizenship</label>
-                                        <div style="margin-bottom: 15px; display: flex;">
-                                            <input type="radio" id="wni" name="citizenship" value="WNI" style="margin-right: 5px;">
-                                            <label for="wni" style="margin-right: 10px; padding-top: 8px;">WNI</label><br>
-                                            <input type="radio" id="wna" name="citizenship" value="WNA" style="margin-right: 5px;">
-                                            <label for="wna" style="padding-top: 8px;">WNA</label>
-                                        </div>
+                                       <label for="citizenship" class="form-label">Citizenship</label>
+                                       <div style="margin-bottom: 15px; display: flex">
+                                          <input type="radio" id="wni" name="citizenship" value="WNI" style="margin-right: 5px" required <?= isset($dataEmployee) && $dataEmployee['citizenship'] == 'WNI' ? 'checked' : '' ?> />
+                                          <label for="wni" style="margin-right: 10px; padding-top: 8px">WNI</label><br />
+                                          <input type="radio" id="wna" name="citizenship" value="WNA" style="margin-right: 5px" required <?= isset($dataEmployee) && $dataEmployee['citizenship'] == 'WNA' ? 'checked' : '' ?> />
+                                          <label for="wna" style="padding-top: 8px">WNA</label>
+                                       </div>
                                     </div>
-                                </div>
-                                <div class="bagian" style="display: flex;">
-                                    <div class="bagian1" style="margin-right: 20px;">
-                                        <label for="birthdate" class="form-label">Birth-date</label>
-                                        <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Enter Birth-date" style="margin-bottom: 10px;">
+                                 </div>
+                                 <div class="bagian" style="display: flex">
+                                    <div class="bagian1" style="margin-right: 20px">
+                                       <label for="birthdate" class="form-label">Birth-date</label>
+                                       <input type="date" class="form-control" id="birthdate" name="birthdate" value="<?= isset($dataEmployee) ? $dataEmployee['birth_date'] : '' ?>" placeholder="Enter Birth-date" style="margin-bottom: 10px" required />
                                     </div>
                                     <div class="bagian2">
-                                        <label for="gender" class="form-label">Gender</label>
-                                        <div style="margin-bottom: 15px; display: flex;">
-                                            <input type="radio" id="male" name="gender" value="Laki-laki" style="margin-right: 5px;">
-                                            <label for="male" style="margin-right: 10px; padding-top: 8px;">Man</label><br>
-                                            <input type="radio" id="female" name="gender" value="Perempuan" style="margin-right: 5px;">
-                                            <label for="female" style="padding-top: 8px;">Woman</label>
-                                        </div>
+                                       <label for="gender" class="form-label">Gender</label>
+                                       <div style="margin-bottom: 15px; display: flex">
+                                          <input type="radio" id="male" name="gender" value="L" style="margin-right: 5px" required <?= isset($dataEmployee) && $dataEmployee['gender'] == 'L' ? 'checked' : '' ?> />
+                                          <label for="male" style="margin-right: 10px; padding-top: 8px">Man</label><br />
+                                          <input type="radio" id="female" name="gender" value="P" style="margin-right: 5px" required <?= isset($dataEmployee) && $dataEmployee['gender'] == 'P' ? 'checked' : '' ?> />
+                                          <label for="female" style="padding-top: 8px">Woman</label>
+                                       </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="box-container-2">
-                                <label for="address" class="form-label">Address</label>
-                                <textarea class="form-control" id="address" name="address" placeholder="Enter Address" style="margin-bottom: 15px; height: 140px;"></textarea>
-                            </div>
-                        </div>
-                        <div class="box-container" style="display: flex;">
-                            <div class="box-container-1">
-                                
-                            </div>
-                            <div class="box-container-2">
-                                <div class="d-grid gap-2" style="margin: 20px 0 20px 0;">
-                                    <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Submit</button>
-                                </div>
-                            </div>
-                        </div>
+                                 </div>
+                              </div>
+                              <div class="box-container-2">
+                                 <label for="address" class="form-label">Address</label>
+                                 <textarea class="form-control" id="address" name="address" placeholder="Enter Address" style="margin-bottom: 15px; height: 140px" required><?= isset($dataEmployee) ? $dataEmployee['address'] : '' ?></textarea>
+                              </div>
+                           </div>
+                           <div class="box-container" style="display: flex">
+                              <div class="box-container-1"></div>
+                              <div class="box-container-2">
+                                 <div class="d-grid gap-2" style="margin: 20px 0 20px 0">
+                                    <button class="btn" type="submit" style="background-color: #1679ab; color: white; height: 40px; width: 100%" name="<?= isset($dataEmployee) ? 'update' : 'insert' ?>">Submit</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </form>
                      </div>
                   </div>
                </div>

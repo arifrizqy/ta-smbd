@@ -1,3 +1,8 @@
+<?php 
+
+require '../../logic/connector.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -169,7 +174,7 @@
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
                      <h1 class="h3 mb-0 text-gray-800">Employees</h1>
-                     <a href="#" class="d-sm-inline-block btn btn-primary shadow-sm">
+                     <a href="form.php" class="d-sm-inline-block btn btn-primary shadow-sm">
                         <i class="mr-2 fas fa-plus fa-sm text-white-50"></i>
                         Add New Employee
                      </a>
@@ -194,48 +199,39 @@
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr>
-                                    <td style="vertical-align: middle; font-weight: bold" align="center">1</td>
-                                    <td style="vertical-align: middle">6789012345678901</td>
-                                    <td style="vertical-align: middle">Arif Rizqy Rizky Kurniawan</td>
-                                    <td style="vertical-align: middle">085156543083</td>
-                                    <td style="vertical-align: middle">rizqy.rizky@example.domain</td>
-                                    <td class="d-flex flex-column align-items-start">
-                                       <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-info-circle"></i>
-                                          Detail
-                                       </a>
-                                       <a href="#" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-edit"></i>
-                                          Update
-                                       </a>
-                                       <a href="#" class="btn btn-outline-danger btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-trash"></i>
-                                          Delete
-                                       </a>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td style="vertical-align: middle; font-weight: bold" align="center">1</td>
-                                    <td style="vertical-align: middle">6789012345678901</td>
-                                    <td style="vertical-align: middle">Arif Rizqy Rizky Kurniawan</td>
-                                    <td style="vertical-align: middle">085156543083</td>
-                                    <td style="vertical-align: middle">rizqy.rizky@example.domain</td>
-                                    <td class="d-flex flex-column align-items-start">
-                                       <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-info-circle"></i>
-                                          Detail
-                                       </a>
-                                       <a href="#" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-edit"></i>
-                                          Update
-                                       </a>
-                                       <a href="#" class="btn btn-outline-danger btn-sm d-flex align-items-center">
-                                          <i class="mr-1 fas fa-trash"></i>
-                                          Delete
-                                       </a>
-                                    </td>
-                                 </tr>
+                                 <?php 
+                                 
+                                 $no = 1;
+
+                                 $dataEmployee = $conn->query("SELECT * FROM employees WHERE is_active = 1")->fetch_all(MYSQLI_ASSOC);
+                                 foreach($dataEmployee as $employee) {
+                                    ?>
+                                    <tr>
+                                       <td style="vertical-align: middle; font-weight: bold" align="center"><?= $no ?></td>
+                                       <td style="vertical-align: middle"><?= $employee['nik'] ?></td>
+                                       <td style="vertical-align: middle"><?= $employee['full_name'] ?></td>
+                                       <td style="vertical-align: middle"><?= $employee['no_telp'] ?></td>
+                                       <td style="vertical-align: middle"><?= $employee['email'] ?></td>
+                                       <td class="d-flex flex-column align-items-start">
+                                          <a href="#" class="mb-1 btn btn-outline-info btn-sm d-flex align-items-center">
+                                             <i class="mr-1 fas fa-info-circle"></i>
+                                             Detail
+                                          </a>
+                                          <a href="form.php?nik=<?= $employee['nik'] ?>" class="mb-1 btn btn-outline-warning btn-sm d-flex align-items-center">
+                                             <i class="mr-1 fas fa-edit"></i>
+                                             Update
+                                          </a>
+                                          <a href="delete.php?nik=<?= $employee['nik'] ?>" class="btn btn-outline-danger btn-sm d-flex align-items-center">
+                                             <i class="mr-1 fas fa-trash"></i>
+                                             Delete
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    <?php
+                                    $no++;
+                                 }
+
+                                 ?>
                               </tbody>
                            </table>
                         </div>
