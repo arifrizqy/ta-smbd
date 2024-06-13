@@ -200,10 +200,10 @@ require_once '../../logic/connector.php';
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
                      <h1 class="h3 mb-0 text-gray-800">Employee</h1>
-                     <!-- <a href="#" class="d-sm-inline-block btn btn-primary shadow-sm">
-                        <i class="mr-2 fas fa-plus fa-sm text-white-50"></i>
-                        Add New Employee
-                     </a> -->
+                     <a href="index.php" class="d-sm-inline-block btn btn-outline-secondary shadow-sm">
+                        <i class="mr-2 fas fa-arrow-left fa-sm"></i>
+                        Back to Data Table
+                     </a>
                   </div>
 
                   <!-- Content Row -->
@@ -343,8 +343,8 @@ require_once '../../logic/connector.php';
       <!-- <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
       <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
 
-      <!-- <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-      <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+      <!-- <script src="/vendor/datatables/jquery.dataTables.min.js"></script> -->
+      <!-- <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
 
       <!-- Page level custom scripts -->
       <script src="script.js"></script>
