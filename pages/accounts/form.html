@@ -23,6 +23,17 @@
 
       <!-- Offline DataTables -->
       <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+      <style>
+         .form-control {
+            border: 1px solid #6f7894;
+            color: #6f7894;
+        }
+        .form-label{
+            color: #6f7894;
+        }
+
+      </style>
    </head>
 
    <body id="page-top">
@@ -168,23 +179,22 @@
                <div class="container-fluid">
                   <!-- Page Heading -->
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                     <h1 class="h3 mb-0 text-gray-800">Accounts</h1>
+                     <h1 class="h3 mb-0 text-gray-800">Add New Account</h1>
                      <a href="#" class="d-sm-inline-block btn btn-outline-secondary shadow-sm">
                         <i class="mr-2 fas fa-arrow-left fa-sm"></i>
                         Back to Data Table
                      </a>
                   </div>
 
-                  <!-- Content Row -->
-                  <div class="card shadow mb-4">
-                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Form Account</h6>
-                     </div>
-                     <div class="card-body">
-                        <form method="post">
-                           <div class="row">
-                              <div class="col-6">
-                                 <div class="form-group">
+                  <div class="row" style="display: flex;">
+                     <!-- Content Row -->
+                     <div class="card shadow mb-4" style="width: 49%; margin-right: 10px;">
+                        <div class="card-header py-3">
+                           <h6 class="m-0 font-weight-bold text-primary">Form Account</h6>
+                        </div>
+                        <div class="card-body" style="margin: 10px 30px 10px 30px;">
+                           <form method="post">
+                                 <div class="form-group" style="margin-bottom: 30px;">
                                     <label for="employeeData">Choose Employee</label>
                                     <select class="form-control" id="employeeData" required>
                                        <option selected disabled>--&lt; Data Employee &gt;--</option>
@@ -213,7 +223,7 @@
                                        </div>
                                     </div>
                                  </div>
-                                 <div class="table-responsive">
+                                 <div class="table-responsive" style="margin-top: 30px;">
                                     <table class="table table-hover" id="rolesPermissions" width="100%" cellspacing="0">
                                        <thead>
                                           <tr>
@@ -250,13 +260,53 @@
                                        </tbody>
                                     </table>
                                  </div>
+                              <div class="d-grid gap-2" style="margin: 40px 0 20px 0;">
+                                 <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Create Account</button>
                               </div>
-                              <div class="form-group col-6 p-1"></div>
-                           </div>
-                           <div>
-                              <button type="submit">Create</button>
-                           </div>
-                        </form>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="card shadow mb-4" style="width: 49%; margin-right: 10px;">
+                        <div class="card-header py-3">
+                           <h6 class="m-0 font-weight-bold text-primary">Role (Exclusive)</h6>
+                        </div>
+                        <div class="card-body" style="margin: 10px 30px 10px 30px;">
+                           <form method="post">
+                              <div class="form-group">
+                                 <label for="role">Role Name</label>
+                                 <input type="text" class="form-control" id="role" name="role" placeholder="Enter Role Name" style="margin-bottom: 30px;">
+                                 <label for="description" class="form-label">Description</label>
+                                 <textarea class="form-control" id="description" name="description" placeholder="Enter Description" style="margin-bottom: 30px; height: 140px;"></textarea>
+                              </div>
+                              <div class="form-group" style="margin-bottom: 30px; display: flex;">
+                                 <div class="bagian1" style="margin: 0 5px 0 0; width: 50%;">
+                                    <label for="menu">Choose Menus</label>
+                                    <select class="form-control" id="menu" required>
+                                       <option selected disabled>--&lt; Data Menus &gt;--</option>
+                                       <option value="#">Menu 1</option>
+                                       <option value="#">Menu 2</option>
+                                       <option value="#">Menu 3</option>
+                                       <option value="#">Menu 4</option>
+                                       <option value="#">Menu 5</option>
+                                    </select>
+                                 </div>
+                                 <div class="bagian2" style="margin: 0 0 0 5px; width: 50%;">
+                                    <label for="function">Choose Functions</label>
+                                    <select class="form-control" id="Function" required>
+                                       <option selected disabled>--&lt; Data Function &gt;--</option>
+                                       <option value="#">Function 1</option>
+                                       <option value="#">Function 2</option>
+                                       <option value="#">Function 3</option>
+                                       <option value="#">Function 4</option>
+                                       <option value="#">Function 5</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="d-grid gap-2" style="margin: 40px 0 20px 0;">
+                                 <button class="btn" type="submit" style="background-color: #1679AB; color: white; height: 40px; width: 100%;" name="submit">Create Role</button>
+                              </div>
+                           </form>
+                        </div>
                      </div>
                   </div>
                </div>
