@@ -16,7 +16,7 @@ require '../../logic/connector.php';
       <title>App TA - Employees</title>
 
       <!-- Offline Font Awesome-->
-      <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+      <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
 
       <!-- Custom fonts for this template -->
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,10 +24,10 @@ require '../../logic/connector.php';
       <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
 
       <!-- Offline Bootstrap CSS Template -->
-      <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet" />
+      <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet" />
 
       <!-- Offline DataTables -->
-      <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+      <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
    </head>
 
    <body id="page-top">
@@ -62,7 +62,7 @@ require '../../logic/connector.php';
 
             <!-- Nav Item - Employees -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/employees/index.php">
+               <a class="nav-link" href="../employees/index.php">
                   <i class="fas fa-users"></i>
                   <span>Employees</span>
                </a>
@@ -70,7 +70,7 @@ require '../../logic/connector.php';
 
             <!-- Nav Item - Accounts -->
             <li class="nav-item">
-               <a class="nav-link" href="/pages/accounts/index.php">
+               <a class="nav-link" href="../accounts/index.php">
                   <i class="fas fa-users"></i>
                   <span>Accounts</span>
                </a>
@@ -211,7 +211,7 @@ require '../../logic/connector.php';
                                  
                                  $no = 1;
 
-                                 $dataEmployee = $conn->query("SELECT * FROM employees WHERE is_active = 1")->fetch_all(MYSQLI_ASSOC);
+                                 $dataEmployee = $conn->query("SELECT * FROM active_employees")->fetch_all(MYSQLI_ASSOC);
                                  foreach($dataEmployee as $employee) {
                                     ?>
                                     <tr>
@@ -289,21 +289,21 @@ require '../../logic/connector.php';
       </div>
 
       <!-- Bootstrap core JavaScript-->
-      <script src="/vendor/jquery/jquery.min.js"></script>
-      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="../../vendor/jquery/jquery.min.js"></script>
+      <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
       <!-- Core plugin JavaScript-->
-      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
       <!-- Custom scripts for all pages-->
-      <script src="/assets/js/sb-admin-2.min.js"></script>
+      <script src="../../assets/js/sb-admin-2.min.js"></script>
 
       <!-- Page level plugins -->
       <!-- <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
       <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
 
-      <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-      <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+      <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+      <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
       <!-- Page level custom scripts -->
       <script src="script.js"></script>

@@ -113,7 +113,7 @@ CREATE TABLE employees_log (
    action ENUM('DELETE', 'INSERT', 'UPDATE') NOT NULL,
    employee_id INT UNSIGNED NOT NULL,
    full_name VARCHAR(50) NOT NULL,
-   deleted_at TIMESTAMP NULL DEFAULT NULL,
+   executed_at TIMESTAMP NULL DEFAULT NULL,
    PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -506,12 +506,10 @@ BEGIN
     SELECT COUNT(*) INTO employee_count FROM employees WHERE nik = p_nik;
     
     IF employee_count > 0 THEN
-        SELECT 'NIK already exists' AS message;
+        LEAVE;
     ELSE
         INSERT INTO employees (nik, full_name, birth_date, gender, address, no_telp, email, citizenship)
         VALUES (p_nik, p_full_name, p_birth_date, p_gender, p_address, p_no_telp, p_email, p_citizenship);
-        
-        SELECT 'Employee inserted successfully' AS message;
     END IF;
 END //
 DELIMITER ;
@@ -690,7 +688,7 @@ CREATE TRIGGER trg_employees_after_insert
 AFTER INSERT ON employees
 FOR EACH ROW
 BEGIN
-   INSERT INTO employees_log (action, employee_id, full_name, created_at)
+   INSERT INTO employees_log (action, employee_id, full_name, executed_at)
    VALUES ('INSERT', NEW.id, NEW.full_name, NEW.created_at);
 END $$
 DELIMITER ;
@@ -729,7 +727,7 @@ CREATE TRIGGER trg_employees_after_update
 AFTER UPDATE ON employees
 FOR EACH ROW
 BEGIN
-    INSERT INTO employees_log (action, employee_id, full_name, updated_at)
+    INSERT INTO employees_log (action, employee_id, full_name, executed_at)
     VALUES ('UPDATE', NEW.id, NEW.full_name, NOW());
 END $$
 DELIMITER ;
@@ -759,7 +757,7 @@ CREATE TRIGGER trg_employees_after_delete
 AFTER DELETE ON employees
 FOR EACH ROW
 BEGIN
-   INSERT INTO employees_log (action, employee_id, full_name, deleted_at)
+   INSERT INTO employees_log (action, employee_id, full_name, executed_at)
    VALUES ('DELETE', OLD.id, OLD.full_name, NOW());
 END $$
 DELIMITER ;
